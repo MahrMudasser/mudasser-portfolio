@@ -74,7 +74,7 @@ const L = {
     <!-- FAQ -->
     <SectionHeading id="faq" eyebrow={L.faq} lead="Before you" accent="ask." />
     <section class="bento" aria-label="Frequently asked questions">
-      <Tile span={4} role="tint">
+      <Tile span={4} role="tint" class="hide-phone">
         <span class="eyebrow">FAQ</span>
         <span style="font-family:var(--font-display);font-weight:600;font-size:30px;line-height:1.08;letter-spacing:-0.035em;text-wrap:balance">Quick answers for recruiters and clients.</span>
         <span class="t-muted" style="font-size:15px">Availability, notice, hours and how I charge.</span>
@@ -94,14 +94,14 @@ const L = {
         <ContactForm client:visible />
         <a class="ul" href={`mailto:${site.email}`} style="align-self:flex-start;font-family:var(--font-display);font-weight:600;font-size:clamp(18px,2vw,26px);letter-spacing:-0.03em;word-break:break-all;padding-bottom:4px">{site.email} ↗</a>
       </Tile>
-      <Tile span={4} role="tint" reveal={2}>
+      <Tile span={4} role="tint" reveal={2} class="half compact">
         <span class="eyebrow">Résumé</span>
-        <a class="btn" href={site.cv} download style="margin-top:auto;padding:0;min-height:44px;justify-content:space-between;font-family:var(--font-display);font-weight:600;font-size:28px;letter-spacing:-0.03em">Download CV <span class="arr" aria-hidden="true">↓</span></a>
+        <a href={site.cv} download class="btn big-link" style="margin-top:auto">Download CV <span class="arr" aria-hidden="true">↓</span></a>
         <span class="t-muted" style="font-size:14px">PDF · two pages</span>
       </Tile>
-      <Tile span={4} reveal={3}>
+      <Tile span={4} reveal={3} class="half compact">
         <span class="eyebrow">Elsewhere</span>
-        <a class="btn" href={site.linkedin} target="_blank" rel="me noopener" style="margin-top:auto;padding:0;min-height:44px;justify-content:space-between;font-family:var(--font-display);font-weight:600;font-size:28px;letter-spacing:-0.03em">LinkedIn <span class="arr" aria-hidden="true">↗</span></a>
+        <a href={site.linkedin} target="_blank" rel="me noopener" class="btn big-link" style="margin-top:auto">LinkedIn <span class="arr" aria-hidden="true">↗</span></a>
         <span class="t-muted" style="font-size:14px">Lahore, PK · open to relocation</span>
       </Tile>
     </section>

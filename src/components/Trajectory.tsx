@@ -63,12 +63,44 @@ export default function Trajectory({ steps }: { steps: Step[] }) {
   const accent = s.next ? 'var(--warm)' : 'var(--accent)';
   const fill = (st: Step) => `linear-gradient(180deg, color-mix(in srgb, ${st.next ? 'var(--bar-next)' : 'var(--bar)'} ${Math.round(st.alpha * 100)}%, transparent), color-mix(in srgb, ${st.next ? 'var(--bar-next)' : 'var(--bar)'} 2%, transparent))`;
 
+  const [openM, setOpenM] = useState(current);
+
+  const timeline = (
+    <ol className="tl" aria-label="Career steps">
+      {steps.map((st, i) => {
+        const open = openM === i;
+        return (
+          <li key={i} className={`tl-item${st.next ? ' next' : ''}${st.now ? ' now' : ''}${open ? ' open' : ''}`} style={{ ['--i' as string]: i, ['--a' as string]: `${Math.round(30 + st.alpha * 160)}%` }}>
+            <span className="tl-dot" aria-hidden="true" />
+            <button type="button" className="tl-head" aria-expanded={open} aria-controls={`tl-b${i}`} onClick={() => setOpenM(open ? -1 : i)}>
+              <span className="tl-years">{st.next ? 'Next' : st.years}</span>
+              <span className="tl-role">{st.role}</span>
+              <span className="tl-co">{st.now ? `${st.company} · now` : st.company}</span>
+              <svg className="tl-x" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" /></svg>
+            </button>
+            <div className="tl-body" id={`tl-b${i}`}>
+              <div>
+                <span className="tl-scope">Scope · {st.scope}</span>
+                <ul className="tj-points">{st.points.map((p) => <li key={p}>{p}</li>)}</ul>
+                <div className="tl-foot">
+                  <span style={{ display: 'flex', gap: 12, alignItems: 'center' }}>{st.stack.map((k) => <span key={k} title={ICONS[k].name}><TechIcon name={k} size={18} /></span>)}</span>
+                  {st.next && <a className="btn btn-warm btn-sm" href="#contact">Talk to me <span className="arr" aria-hidden="true">→</span></a>}
+                </div>
+              </div>
+            </div>
+          </li>
+        );
+      })}
+    </ol>
+  );
+
   return (
     <div ref={root} className={`tj${armed ? ' armed' : ''}${go ? ' go' : ''}`}>
       <div className="tj-head">
         <span className="eyebrow">2020 → next</span>
         <span className="muted" style={{ fontSize: 14 }}>Each step a bigger scope: code, then teams, then systems</span>
       </div>
+      {timeline}
       <div className="tj-wrap">
         <div className="tj-graph-col">
           <div className="tj-graph" ref={graph} role="list" aria-label="Career steps">

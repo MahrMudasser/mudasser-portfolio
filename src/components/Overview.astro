@@ -10,11 +10,11 @@ const now = trajectory.find((s) => s.now)!;
     <p style="font-family:var(--font-display);font-weight:600;font-size:clamp(24px,2.3vw,32px);line-height:1.18;letter-spacing:-0.03em;text-wrap:pretty">{about.text}</p>
     <div class="chips" style="margin-top:auto">{about.tags.map((t) => <span class="chip">{t}</span>)}</div>
   </Tile>
-  <Tile span={3} reveal={2}>
+  <Tile span={3} reveal={2} class="half">
     <span class="tile-stat">6+</span>
     <span class="t-muted" style="font-size:15px">years building production software</span>
   </Tile>
-  <Tile span={3} reveal={3}>
+  <Tile span={3} reveal={3} class="half">
     <span class="tile-stat">5</span>
     <span class="t-muted" style="font-size:15px">teams, on-site and remote, across 2 countries</span>
   </Tile>
