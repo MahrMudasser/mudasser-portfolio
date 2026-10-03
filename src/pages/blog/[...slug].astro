@@ -1,0 +1,63 @@
+---
+import { render } from 'astro:content';
+import Base from '@/layouts/Base.astro';
+import Logo from '@/components/Logo.astro';
+import Tile from '@/components/Tile.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import { getPosts, readingTime, formatDate, type Post } from '@/lib/posts';
+import { site } from '@/data/site';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post, more: posts.filter((p) => p.id !== post.id).slice(0, 2) } }));
+}
+interface Props { post: Post; more: Post[] }
+const { post, more } = Astro.props;
+const { Content, headings } = await render(post);
+const toc = headings.filter((h) => h.depth <= 3);
+const words = post.data.title.split(' ');
+const lead = words.slice(0, -2).join(' ');
+const tail = words.slice(-2).join(' ');
+---
+<Base title={post.data.title} description={post.data.description} type="article" noindex={post.data.draft}>
+  <div class="wrap">
+    <div class="mono muted" style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:40px;font-size:12px;letter-spacing:.1em;text-transform:uppercase">
+      <a class="ul" href="/blog" style="min-height:44px;display:inline-flex;align-items:center;gap:8px"><span aria-hidden="true">←</span> All notes</a>
+      {post.data.draft && <span class="tag tag-dashed">Draft</span>}
+    </div>
+    <header style="max-width:920px;display:flex;flex-direction:column;gap:22px;padding:56px 0 48px">
+      <span class="eyebrow fade">{post.data.topic}</span>
+      <h1 class="fade" style="font-family:var(--font-display);font-weight:600;font-size:clamp(44px,6vw,84px);line-height:.98;letter-spacing:-0.05em;text-wrap:balance;animation-delay:100ms">{lead}{' '}<span class="accent">{tail}.</span></h1>
+      <p class="fade muted" style="max-width:680px;font-size:21px;line-height:1.55;animation-delay:200ms">{post.data.description}</p>
+      <div class="fade" style="display:flex;align-items:center;gap:14px;animation-delay:280ms">
+        <Logo size={44} />
+        <span style="display:flex;flex-direction:column;line-height:1.35"><span style="font-weight:600">{site.name}</span><span class="mono muted" style="font-size:12px;letter-spacing:.06em"><time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time> · ~{readingTime(post.body)} min read</span></span>
+      </div>
+    </header>
+    <div class="post-grid">
+      <article class="prose"><Content /></article>
+      {toc.length > 0 && (
+        <aside class="toc" aria-label="On this page">
+          <span class="eyebrow" style="margin-bottom:8px">On this page</span>
+          {toc.map((h) => <a class={`ul depth-${h.depth}`} href={`#${h.slug}`}>{h.text}</a>)}
+        </aside>
+      )}
+    </div>
+    {more.length > 0 && (
+      <>
+        <SectionHeading lead="More" accent="notes." />
+        <section class="bento">
+          {more.map((p, i) => (
+            <Tile span={6} reveal={(i + 1) as 1 | 2} dashed={p.data.draft}>
+              <a href={`/blog/${p.id}/`} style="display:contents">
+                <span class="eyebrow">{p.data.topic}</span>
+                <span style="margin-top:8px;font-family:var(--font-display);font-weight:600;font-size:26px;line-height:1.15;letter-spacing:-0.03em">{p.data.title}</span>
+                <p class="t-muted" style="font-size:15px">{p.data.description}</p>
+              </a>
+            </Tile>
+          ))}
+        </section>
+      </>
+    )}
+  </div>
+</Base>

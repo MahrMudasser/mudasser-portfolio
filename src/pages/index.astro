@@ -1,0 +1,109 @@
+---
+import Base from '@/layouts/Base.astro';
+import Hero from '@/components/Hero.astro';
+import Overview from '@/components/Overview.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import Tile from '@/components/Tile.astro';
+import Trajectory from '@/components/Trajectory';
+import Testimonials from '@/components/Testimonials';
+import Faq from '@/components/Faq';
+import ContactForm from '@/components/ContactForm';
+import { site, trajectory, testimonials, faq } from '@/data/site';
+import { getPosts, readingTime } from '@/lib/posts';
+
+const posts = (await getPosts()).slice(0, 3);
+const n = (s: string) => `width: calc(${s.length + 2}ch + ${s.length} * 0.14em)`;
+let num = 0;
+const label = (t: string) => `${String(++num).padStart(2, '0')} · ${t}`;
+const L = {
+  trajectory: label('Trajectory'),
+  testimonials: label('Testimonials'),
+  writing: posts.length ? label('Writing') : '',
+  faq: label('FAQ'),
+  contact: label('Contact'),
+};
+---
+<Base>
+  <Hero />
+  <div class="wrap">
+    <Overview />
+
+    <!-- Trajectory -->
+    <SectionHeading id="trajectory" eyebrow={L.trajectory} lead="Always" accent="one level up." />
+    <section class="bento">
+      <Tile span={12} lg>
+        <Trajectory client:visible steps={trajectory} />
+      </Tile>
+    </section>
+
+    <!-- Testimonials -->
+    <Testimonials client:visible items={testimonials}>
+      <div slot="heading" class="sechead-text">
+        <span class="eyebrow typeon" style={n(L.testimonials)}>{L.testimonials}</span>
+        <h2 class="wvin">In their <span class="accent">words.</span></h2>
+      </div>
+    </Testimonials>
+    <div style="display:flex;justify-content:flex-end;padding-top:20px">
+      <a class="ul mono muted" style="font-size:12px;letter-spacing:.06em;min-height:44px;display:inline-flex;align-items:center" href={site.linkedin} target="_blank" rel="noopener">Recommendations on LinkedIn ↗</a>
+    </div>
+
+    <!-- Writing (hidden until at least one post is published) -->
+    {posts.length > 0 && (
+      <>
+        <SectionHeading id="writing" eyebrow={L.writing} lead="Notes from" accent="the build.">
+          <a slot="aside" class="ul mono muted" style="font-size:12px;letter-spacing:.06em" href="/blog">All notes →</a>
+        </SectionHeading>
+        <section class="bento">
+          {posts.map((p, i) => (
+            <Tile span={4} reveal={((i % 3) + 1) as 1 | 2 | 3} dashed={p.data.draft} class="post-card">
+              <a href={`/blog/${p.id}/`} style="display:contents">
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+                  <span class="eyebrow">{p.data.topic}</span>
+                  {p.data.draft && <span class="tag tag-dashed">Draft</span>}
+                </div>
+                <h3>{p.data.title}</h3>
+                <p class="t-muted" style="font-size:15px;line-height:1.55">{p.data.description}</p>
+                <div class="post-foot"><span>~{readingTime(p.body)} min read</span><span>{p.data.draft ? 'Draft' : 'Read →'}</span></div>
+              </a>
+            </Tile>
+          ))}
+        </section>
+      </>
+    )}
+
+    <!-- FAQ -->
+    <SectionHeading id="faq" eyebrow={L.faq} lead="Before you" accent="ask." />
+    <section class="bento" aria-label="Frequently asked questions">
+      <Tile span={4} role="tint">
+        <span class="eyebrow">FAQ</span>
+        <span style="font-family:var(--font-display);font-weight:600;font-size:30px;line-height:1.08;letter-spacing:-0.035em;text-wrap:balance">Quick answers for recruiters and clients.</span>
+        <span class="t-muted" style="font-size:15px">Availability, notice, hours and how I charge.</span>
+        <a class="btn btn-outline btn-sm" style="margin-top:auto;align-self:flex-start" href="#contact">Ask me something else <span class="arr" aria-hidden="true">→</span></a>
+      </Tile>
+      <Tile span={8} reveal={2} style="padding:12px clamp(24px,3vw,36px)">
+        <Faq client:visible items={faq} />
+      </Tile>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="bento" style="padding-top:var(--space-section);scroll-margin-top:60px">
+      <Tile span={8} rows={2} lg>
+        <span class="eyebrow">{L.contact}</span>
+        <h2 class="talk" aria-label="Let's talk.">Let's <span class="accent">talk.</span></h2>
+        <p class="t-muted" style="font-size:17px;max-width:460px">Hiring for a senior role, planning a product, or need remote help across time zones. Send a message or email me directly.</p>
+        <ContactForm client:visible />
+        <a class="ul" href={`mailto:${site.email}`} style="align-self:flex-start;font-family:var(--font-display);font-weight:600;font-size:clamp(18px,2vw,26px);letter-spacing:-0.03em;word-break:break-all;padding-bottom:4px">{site.email} ↗</a>
+      </Tile>
+      <Tile span={4} role="tint" reveal={2}>
+        <span class="eyebrow">Résumé</span>
+        <a class="btn" href={site.cv} download style="margin-top:auto;padding:0;min-height:44px;justify-content:space-between;font-family:var(--font-display);font-weight:600;font-size:28px;letter-spacing:-0.03em">Download CV <span class="arr" aria-hidden="true">↓</span></a>
+        <span class="t-muted" style="font-size:14px">PDF · two pages</span>
+      </Tile>
+      <Tile span={4} reveal={3}>
+        <span class="eyebrow">Elsewhere</span>
+        <a class="btn" href={site.linkedin} target="_blank" rel="me noopener" style="margin-top:auto;padding:0;min-height:44px;justify-content:space-between;font-family:var(--font-display);font-weight:600;font-size:28px;letter-spacing:-0.03em">LinkedIn <span class="arr" aria-hidden="true">↗</span></a>
+        <span class="t-muted" style="font-size:14px">Lahore, PK · open to relocation</span>
+      </Tile>
+    </section>
+  </div>
+</Base>

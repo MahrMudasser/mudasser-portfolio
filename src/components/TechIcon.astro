@@ -1,0 +1,13 @@
+---
+import { ICONS, type IconKey } from '@/data/icons';
+interface Props { name: IconKey; size?: number; mono?: boolean; title?: boolean }
+const { name, size = 22, mono = false, title = true } = Astro.props;
+const i = ICONS[name];
+const col = mono || i.ink ? 'currentColor' : i.color;
+---
+<svg width={size} height={size} viewBox="0 0 24 24" role={title ? 'img' : undefined} aria-label={title ? i.name : undefined} aria-hidden={title ? undefined : 'true'} style="display:block;flex:none">
+  {title && <title>{i.name}</title>}
+  {i.fill
+    ? <path d={i.path} fill={col} />
+    : <path d={i.path} fill="none" stroke={col} stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />}
+</svg>

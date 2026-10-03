@@ -1,0 +1,43 @@
+---
+title: How I structure large Laravel apps
+description: Domains, services and clear boundaries, so a growing codebase still makes sense to the whole team.
+topic: Laravel · Architecture
+date: 2026-10-03
+draft: true
+---
+import Callout from '@/components/Callout.astro';
+
+{/* DRAFT: sample text from the design. Rewrite it in your own words, then set draft: false. */}
+
+Most Laravel apps start the same way: a controller, a model, a migration. That is the right start. The trouble begins around the fortieth model, when the folders still say what kind of file something is but not what part of the business it belongs to.
+
+## Why structure breaks first
+
+Features rarely break a codebase. Navigation does. When an accounting rule lives half in a controller, half in an observer and half in a job, every change turns into a search.
+
+> If a new developer can't find where a rule lives in under a minute, the structure is wrong.
+
+## Group by domain, not by type
+
+I keep the framework folders Laravel expects and add a `Domain` folder beside them. Each domain owns its models, actions, events and policies.
+
+```text
+app/
+├─ Domain/
+│  ├─ Accounting/   # Actions, Models, Events, Policies
+│  ├─ Units/
+│  └─ WorkOrders/
+├─ Http/
+│  └─ Controllers/  # thin: validate, call an Action, return a Resource
+└─ Support/         # shared helpers, no business rules
+```
+
+## Thin controllers, real Actions
+
+Controllers validate the request, call one Action and return a Resource. The Action is where the business rule lives, so a queued job or an Artisan command can reuse it without copying code.
+
+<Callout>One Action class per thing the business does: `IssueInvoice`, `AssignVendor`. Controllers and jobs both call it.</Callout>
+
+## What I would do again
+
+Start simple, and move a feature into its own domain the second time it grows a rule. The structure should follow the business, not the other way round.

@@ -1,0 +1,12 @@
+---
+import { site } from '@/data/site';
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+  <span>© {year} {site.name} · {site.location} · Open to relocation</span>
+  <span style="display:flex;gap:24px;flex-wrap:wrap">
+    <a class="ul" href="/rss.xml">RSS</a>
+    <a class="ul" href={site.linkedin} rel="me noopener" target="_blank">LinkedIn ↗</a>
+    <a class="ul" href="#top" onclick="window.scrollTo({top:0});return false;">Back to top ↑</a>
+  </span>
+</footer>

@@ -1,0 +1,5 @@
+---
+interface Props { label?: string }
+const { label = 'Rule of thumb' } = Astro.props;
+---
+<div class="callout"><span class="eyebrow">{label}</span><div><slot /></div></div>

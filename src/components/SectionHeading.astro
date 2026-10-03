@@ -1,0 +1,12 @@
+---
+interface Props { id?: string; eyebrow?: string; lead: string; accent: string; as?: 'h1' | 'h2' }
+const { id, eyebrow, lead, accent, as: Tag = 'h2' } = Astro.props;
+const n = eyebrow?.length ?? 0;
+---
+<div class="sechead" id={id}>
+  <div class="sechead-text">
+    {eyebrow && <span class="eyebrow typeon" style={`width: calc(${n + 2}ch + ${n} * 0.14em)`}>{eyebrow}</span>}
+    <Tag class="wvin">{lead}{' '}<span class="accent">{accent}</span></Tag>
+  </div>
+  <slot name="aside" />
+</div>

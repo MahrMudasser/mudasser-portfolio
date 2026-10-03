@@ -1,0 +1,118 @@
+/*
+  Design tokens — mirrors the "Mudasser Hussain" design system.
+  Dark (Deep Space) is the default; light (Cool studio) applies with <html data-theme="light">.
+*/
+:root {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --bg: #060814;
+  --surface: #0b1022;
+  --surface-sunk: #eef1ff08;
+  --nav-bg: #060814c7;
+  --line: #96afff1f;
+  --line-strong: #96afff42;
+  --dot-grid: #96afff12;
+
+  /* Text */
+  --ink: #eef1ff;
+  --ink-muted: #9aa3c6;
+
+  /* Brand */
+  --accent: #2de2c5;          /* teal as text and strokes */
+  --accent-fill: #2de2c5;     /* teal as a fill */
+  --on-accent: #032019;
+  --warm: #ff8a73;            /* coral = "next" */
+  --warm-fill: #ff8a73;
+  --on-warm: #1a0804;
+  --accent-tint: #2de2c51c;
+  --accent-tint-line: #2de2c542;
+  --warm-tint: #ff8a731c;
+  --warm-tint-line: #ff8a7342;
+  --invert: #eef1ff;
+  --on-invert: #060814;
+  --on-invert-muted: #060814a8;
+  --invert-accent: #087a6b;
+  --glow: #2de2c524;
+  --wash: #2de2c514;
+  --wash-2: #ff8a730a;
+  --halo: #2de2c512;
+  --focus: #2de2c5;
+
+  /* Fills for the trajectory bars (vivid in both themes) */
+  --bar: #2de2c5;
+  --bar-next: #ff8a73;
+
+  /* Shadows */
+  --shadow-tile: none;
+  --shadow-tile-hover: none;
+  --shadow-icon: 0 8px 18px -8px #00000099;
+  --dock-tile: linear-gradient(180deg, #eef1ff1a, #eef1ff08), linear-gradient(var(--surface), var(--surface));
+  --selected-filter: brightness(1.35) saturate(1.1);
+
+  /* Type */
+  --font-display: 'Space Grotesk Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'DM Sans Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 28px;
+  --space-7: 36px;
+  --space-8: 48px;
+  --space-grid: 32px;
+  --space-section: 140px;
+  --gutter: clamp(16px, 4vw, 48px);
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-pill: 999px;
+
+  /* Motion */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --bg: #edf1f8;
+  --surface: #ffffff;
+  --surface-sunk: #edf1f8;
+  --nav-bg: #edf1f8cc;
+  --line: #0a113014;
+  --line-strong: #0a11302e;
+  --dot-grid: #0a113013;
+  --ink: #0a1130;
+  --ink-muted: #4a5578;
+  --accent: #087a6b;
+  --accent-fill: #2de2c5;
+  --on-accent: #032019;
+  --warm: #b83e26;
+  --warm-fill: #ff8a73;
+  --on-warm: #0a1130;
+  --accent-tint: #2de2c529;
+  --accent-tint-line: #087a6b42;
+  --warm-tint: #ff8a732b;
+  --warm-tint-line: #b83e2642;
+  --invert: #101a3f;
+  --on-invert: #f3f6ff;
+  --on-invert-muted: #f3f6ffb8;
+  --invert-accent: #2de2c5;
+  --glow: #2de2c533;
+  --wash: #2de2c538;
+  --wash-2: #ff8a7324;
+  --halo: #2de2c529;
+  --focus: #087a6b;
+  --shadow-tile: 0 1px 2px #0a11300d, 0 10px 30px -12px #0a113029;
+  --shadow-tile-hover: 0 2px 4px #0a11300f, 0 22px 44px -16px #0a11303d;
+  --shadow-icon: 0 8px 18px -8px #0a113047;
+  --dock-tile: linear-gradient(180deg, #ffffff, #edf1f8);
+  --selected-filter: saturate(1.3) brightness(0.96);
+}

@@ -1,0 +1,112 @@
+---
+import Base from '@/layouts/Base.astro';
+import Tile from '@/components/Tile.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import TechIcon from '@/components/TechIcon.astro';
+import { site } from '@/data/site';
+import { ICONS } from '@/data/icons';
+import type { IconKey } from '@/data/icons';
+
+const stack: IconKey[] = ['laravel', 'mysql', 'angular', 'aws', 'azure'];
+const did = [
+  ['Led the team', 'Ran the full lifecycle from requirements and planning to deployment and support, and mentored the backend engineers.'],
+  ['Designed the backend', 'Laravel and MySQL architecture with an Angular front end, built for availability, security and clean data processing.'],
+  ['Set the workflow', 'Code review guidelines, daily stand-ups and sprint planning with product managers, turning requests into clear specs.'],
+  ['Made it faster', 'Refactored the codebase and optimised database queries to cut server response times under heavy traffic.'],
+  ['Shipped safely', 'Owned deployment pipelines: AWS for production, Azure DevOps for staging.'],
+  ['Brought in AI tools', 'Adopted ChatGPT and Cursor across the team to speed up refactoring, debugging and query optimisation.'],
+];
+const users = [['Owners', 'units · statements'], ['Tenants', 'requests · updates'], ['Vendors', 'work orders'], ['Government', 'records']];
+const modules = ['Communities & units', 'Accounting', 'Vendors', 'Work orders'];
+---
+<Base title="Iskaan case study" description="How I led the backend and designed the architecture of Iskaan, a community management platform for owners, tenants, vendors and government entities.">
+  <div class="wrap">
+    <div class="mono muted" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:40px;font-size:12px;letter-spacing:.1em;text-transform:uppercase">
+      <a class="ul" href="/" style="min-height:44px;display:inline-flex;align-items:center;gap:8px"><span aria-hidden="true">←</span> Home</a>
+      <span>Case file 01 · Community management</span>
+    </div>
+
+    <section class="cs-hero">
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <h1 class="fade" style="font-family:var(--font-display);font-weight:600;font-size:clamp(72px,11vw,168px);line-height:.88;letter-spacing:-0.055em">Iskaan</h1>
+        <p class="fade" style="max-width:640px;font-size:clamp(19px,1.7vw,23px);line-height:1.5;text-wrap:pretty;animation-delay:120ms">One hub for residential communities: units, accounting, vendors and work orders, shared by <span class="accent">owners, tenants, vendors and government entities.</span></p>
+        <div class="fade" style="animation-delay:220ms"><a class="btn btn-outline" href="https://iskaan.com" target="_blank" rel="noopener">Visit iskaan.com <span class="arr" aria-hidden="true">↗</span></a></div>
+      </div>
+      <dl class="fade" style="margin:0;display:flex;flex-direction:column;animation-delay:300ms">
+        <div class="meta-row"><span>Role</span><span>Senior Software Developer / Team Lead</span></div>
+        <div class="meta-row"><span>When</span><span>Jun 2023 – Apr 2025 · Lahore, on-site</span></div>
+        <div class="meta-row"><span>Team</span><span>Led and mentored the backend team</span></div>
+        <div class="meta-row"><span>Stack</span><span style="display:flex;flex-wrap:wrap;gap:10px 18px">{stack.map((k) => <span style="display:inline-flex;align-items:center;gap:8px;font-size:15px"><TechIcon name={k} size={20} title={false} />{ICONS[k].name}</span>)}</span></div>
+      </dl>
+    </section>
+
+    <section class="bento">
+      <Tile span={7} lg>
+        <figure class="arch" aria-label="Four user groups use an Angular front end, which talks to a Laravel REST API split into four domain modules on MySQL, deployed to AWS in production and Azure DevOps for staging">
+          <div class="arch-row">{users.map(([a, b]) => <div class="arch-box"><b>{a}</b><span>{b}</span></div>)}</div>
+          <span class="wire" aria-hidden="true"></span>
+          <div class="arch-box surface"><b>Angular front end</b><span>one app, four roles</span></div>
+          <span class="wire" aria-hidden="true"></span>
+          <div class="arch-box core"><b>Laravel REST API</b><span>auth · roles · validation</span></div>
+          <span class="wire" aria-hidden="true"></span>
+          <div class="arch-row">{modules.map((m) => <div class="arch-box"><b>{m}</b><span>domain module</span></div>)}</div>
+          <span class="wire" aria-hidden="true"></span>
+          <div class="arch-box surface"><b>MySQL</b><span>schemas tuned with indexing</span></div>
+          <div class="arch-row two"><div class="arch-box cloud"><b>AWS</b><span>production</span></div><div class="arch-box cloud"><b>Azure DevOps</b><span>staging</span></div></div>
+        </figure>
+      </Tile>
+      <Tile span={5} reveal={2} lg>
+        <span class="eyebrow">How it fits</span>
+        <p style="font-family:var(--font-display);font-weight:600;font-size:26px;line-height:1.18;letter-spacing:-0.03em;text-wrap:balance">One API, four domains, four kinds of user.</p>
+        <ul class="dash-list">
+          <li>Every group signs in to the same Angular app; roles decide what each one sees and can do.</li>
+          <li>The Laravel API is split into domain modules, so accounting changes never touch work orders.</li>
+          <li>MySQL schemas were designed and tuned with indexing for the heavy, read-mostly screens.</li>
+          <li>AWS runs production; Azure DevOps runs staging and the deployment pipeline.</li>
+        </ul>
+      </Tile>
+    </section>
+
+    <SectionHeading eyebrow="01 · The problem" lead="Four kinds of user," accent="one source of truth." />
+    <section class="bento">
+      <Tile span={6} role="invert">
+        <span class="eyebrow">Before</span>
+        <p style="font-family:var(--font-display);font-weight:600;font-size:clamp(22px,2.2vw,30px);line-height:1.2;letter-spacing:-0.03em;text-wrap:pretty">Running a residential community means coordinating owners, tenants, vendors and government entities across units, accounts and work orders.</p>
+      </Tile>
+      <Tile span={6} reveal={2}>
+        <span class="eyebrow">The job</span>
+        <p>Iskaan had to be the one hub for that work: community organisation, project and unit management, accounting, vendor management and work order processing, with communication between every group in the same place.</p>
+        <p class="t-muted" style="font-size:15px">The hard part is permissions and data: the same unit, invoice or work order looks different to each group.</p>
+      </Tile>
+    </section>
+
+    <SectionHeading eyebrow="02 · What I did" lead="From the backlog" accent="to production." />
+    <section class="bento">
+      {did.map(([a, b], i) => (
+        <Tile span={4} reveal={((i % 3) + 1) as 1 | 2 | 3}>
+          <span class="eyebrow">{String(i + 1).padStart(2, '0')}</span>
+          <span style="font-family:var(--font-display);font-weight:600;font-size:22px;line-height:1.15;letter-spacing:-0.03em">{a}</span>
+          <p class="t-muted" style="font-size:15px;line-height:1.55">{b}</p>
+        </Tile>
+      ))}
+    </section>
+
+    <SectionHeading eyebrow="03 · Outcome" lead="What changed" accent="after the work." />
+    <section class="bento">
+      <Tile span={4} role="accent"><span class="eyebrow">Speed</span><span class="tile-title">Faster responses</span><p class="t-muted" style="margin-top:auto;font-size:15px">Refactoring and query tuning reduced server response times.</p></Tile>
+      <Tile span={4} role="tint" reveal={2}><span class="eyebrow">Stability</span><span class="tile-title">Steady under load</span><p class="t-muted" style="margin-top:auto;font-size:15px">The platform held up under heavy traffic after the optimisation work.</p></Tile>
+      <Tile span={4} role="tint" reveal={3}><span class="eyebrow">Delivery</span><span class="tile-title">Faster releases</span><p class="t-muted" style="margin-top:auto;font-size:15px">Code review guidelines and a clear workflow sped up feature delivery.</p></Tile>
+    </section>
+
+    <SectionHeading lead="Need a platform" accent="like this?" />
+    <section class="bento">
+      <Tile span={12} role="invert" lg>
+        <span class="eyebrow">Your project</span>
+        <p style="max-width:640px;font-family:var(--font-display);font-weight:600;font-size:clamp(26px,3vw,40px);line-height:1.1;letter-spacing:-0.03em">I design and build multi-role platforms in Laravel, from data model to deployment.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
+          <a class="btn btn-primary" href={site.bookingUrl || '/#contact'}>Book an architecture call <span class="arr" aria-hidden="true">→</span></a>
+        </div>
+      </Tile>
+    </section>
+  </div>
+</Base>

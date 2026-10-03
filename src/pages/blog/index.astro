@@ -1,0 +1,28 @@
+---
+import Base from '@/layouts/Base.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import Tile from '@/components/Tile.astro';
+import { getPosts, readingTime, formatDate } from '@/lib/posts';
+const posts = await getPosts();
+---
+<Base title="Writing" description="Notes on Laravel, system design and leading engineering teams.">
+  <div class="wrap">
+    <SectionHeading as="h1" eyebrow="Writing" lead="Notes from" accent="the build." />
+    {posts.length === 0 && <p class="muted">The first posts are on their way. Follow along through the <a class="ul accent" href="/rss.xml">RSS feed</a>.</p>}
+    <section class="bento">
+      {posts.map((p, i) => (
+        <Tile span={i === 0 ? 8 : 4} reveal={((i % 3) + 1) as 1 | 2 | 3} dashed={p.data.draft} class="post-card">
+          <a href={`/blog/${p.id}/`} style="display:contents">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+              <span class="eyebrow">{p.data.topic}</span>
+              {p.data.draft && <span class="tag tag-dashed">Draft</span>}
+            </div>
+            <h3 style={i === 0 ? 'font-size:clamp(28px,3vw,40px)' : ''}>{p.data.title}</h3>
+            <p class="t-muted" style="font-size:15px;line-height:1.55;max-width:560px">{p.data.description}</p>
+            <div class="post-foot"><span>{formatDate(p.data.date)} · ~{readingTime(p.body)} min read</span><span>Read →</span></div>
+          </a>
+        </Tile>
+      ))}
+    </section>
+  </div>
+</Base>

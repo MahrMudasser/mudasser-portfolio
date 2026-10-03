@@ -1,0 +1,24 @@
+---
+import Base from '@/layouts/Base.astro';
+const steps = [64, 112, 160, null, 264];
+---
+<Base title="Page not found" noindex>
+  <div class="wrap">
+    <section class="nf">
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <span class="eyebrow warm fade">Error 404 · Page not found</span>
+        <h1 class="fade" style="font-family:var(--font-display);font-weight:600;font-size:clamp(52px,7vw,104px);line-height:.95;letter-spacing:-0.055em;text-wrap:balance;animation-delay:100ms">This step <span class="accent">doesn't exist.</span></h1>
+        <p class="fade muted" style="max-width:480px;font-size:19px;line-height:1.55;animation-delay:200ms">The page moved or never existed. The rest of the climb is still there.</p>
+        <div class="fade" style="display:flex;gap:12px;flex-wrap:wrap;animation-delay:300ms">
+          <a class="btn btn-primary" href="/">Back to home <span class="arr" aria-hidden="true">→</span></a>
+          <a class="btn btn-outline" href="/#trajectory">See my journey</a>
+        </div>
+      </div>
+      <div class="nf-art fade" aria-hidden="true" style="animation-delay:200ms">
+        {steps.map((h, i) => h === null
+          ? <div style="display:flex;flex-direction:column;justify-content:flex-end;gap:10px"><span class="mono warm" style="font-size:12px;letter-spacing:.1em;text-align:center">404</span><span class="nf-gap"></span></div>
+          : <div style="display:flex;flex-direction:column;justify-content:flex-end"><span class="nf-bar" style={`--i:${i};height:${h}px`}></span></div>)}
+      </div>
+    </section>
+  </div>
+</Base>

@@ -1,0 +1,17 @@
+---
+// One bento tile. `role` sets the colours; `span` and `rows` place it on the 12-column grid.
+interface Props {
+  role?: 'base' | 'tint' | 'warm-tint' | 'accent' | 'warm' | 'invert';
+  span?: 3 | 4 | 5 | 6 | 7 | 8 | 12;
+  rows?: 1 | 2;
+  reveal?: 1 | 2 | 3;
+  lg?: boolean;
+  dashed?: boolean;
+  class?: string;
+  id?: string;
+  style?: string;
+}
+const { role = 'base', span = 4, rows = 1, reveal = 1, lg = false, dashed = false, class: cls = '', id, style } = Astro.props;
+const classes = ['tile', role !== 'base' && `tile-${role}`, `c-${span}`, rows === 2 && 'r-2', `rv${reveal === 1 ? '' : reveal}`, lg && 'tile-lg', dashed && 'tile-dashed', cls].filter(Boolean).join(' ');
+---
+<div class={classes} id={id} style={style}><slot /></div>

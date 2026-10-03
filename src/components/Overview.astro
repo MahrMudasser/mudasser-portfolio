@@ -1,0 +1,51 @@
+---
+import Tile from './Tile.astro';
+import StackDock from './StackDock';
+import { about, dockStack, trajectory } from '@/data/site';
+const now = trajectory.find((s) => s.now)!;
+---
+<section aria-label="At a glance" class="bento" style="padding-top:24px">
+  <Tile span={6} rows={2}>
+    <span class="eyebrow">About</span>
+    <p style="font-family:var(--font-display);font-weight:600;font-size:clamp(24px,2.3vw,32px);line-height:1.18;letter-spacing:-0.03em;text-wrap:pretty">{about.text}</p>
+    <div class="chips" style="margin-top:auto">{about.tags.map((t) => <span class="chip">{t}</span>)}</div>
+  </Tile>
+  <Tile span={3} reveal={2}>
+    <span class="tile-stat">6+</span>
+    <span class="t-muted" style="font-size:15px">years building production software</span>
+  </Tile>
+  <Tile span={3} reveal={3}>
+    <span class="tile-stat">5</span>
+    <span class="t-muted" style="font-size:15px">teams, on-site and remote, across 2 countries</span>
+  </Tile>
+  <Tile span={3} role="tint" reveal={2}>
+    <span class="eyebrow">Currently</span>
+    <span style="font-family:var(--font-display);font-weight:600;font-size:22px;line-height:1.2;letter-spacing:-0.02em">{now.role}</span>
+    <span class="t-muted" style="margin-top:auto;font-size:15px">{now.company} · Lahore</span>
+  </Tile>
+  <Tile span={3} reveal={3}>
+    <div class="orbit-rings" aria-hidden="true"></div>
+    <div class="orbiter" aria-hidden="true"></div>
+    <span class="eyebrow">Based in</span>
+    <span style="font-family:var(--font-display);font-weight:600;font-size:26px;line-height:1.1;letter-spacing:-0.03em">Lahore, Pakistan</span>
+    <span class="mono t-muted" style="margin-top:auto;font-size:13px">Local time <span id="lahore-time" style="color:var(--ink)">--:--</span> PKT</span>
+  </Tile>
+  <Tile span={8}>
+    <span class="eyebrow">Daily stack</span>
+    <StackDock client:visible items={dockStack} />
+  </Tile>
+  <Tile span={4} role="tint" reveal={2}>
+    <span class="eyebrow">Next</span>
+    <span style="font-family:var(--font-display);font-weight:600;font-size:30px;line-height:1.05;letter-spacing:-0.03em">Solutions Architect</span>
+    <a href="#trajectory" class="t-muted" style="margin-top:auto;font-size:15px">Designing the systems behind the product →</a>
+  </Tile>
+</section>
+
+<script>
+  const el = document.getElementById('lahore-time');
+  const tick = () => {
+    if (!el) return;
+    try { el.textContent = new Date().toLocaleTimeString('en-GB', { timeZone: 'Asia/Karachi', hour: '2-digit', minute: '2-digit' }); } catch { /* ignore */ }
+  };
+  tick(); setInterval(tick, 30000);
+</script>
